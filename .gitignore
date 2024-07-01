@@ -1,0 +1,15 @@
+.env
+/bin
+/obj
+obj/Debug/net8.0/PlaywrightDemo.GeneratedMSBuildEditorConfig.editorconfig
+obj/Debug/net8.0/PlaywrightDemo.csproj.FileListAbsolute.txt
+obj/PlaywrightDemo.csproj.nuget.dgspec.json
+obj/PlaywrightDemo.csproj.nuget.g.props
+obj/project.assets.json
+obj/project.nuget.cache
+obj/Debug/net8.0/apphost
+obj/Debug/net8.0/PlaywrightDemo.AssemblyInfo.cs
+obj/Debug/net8.0/PlaywrightDemo.AssemblyInfoInputs.cache
+obj/Debug/net8.0/PlaywrightDemo.assets.cache
+obj/Debug/net8.0/PlaywrightDemo.csproj.AssemblyReference.cache
+login_screenshot.png

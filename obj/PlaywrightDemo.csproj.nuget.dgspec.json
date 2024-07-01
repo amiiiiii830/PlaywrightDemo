@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/jaykchen/projects/PlaywrightDemo/PlaywrightDemo.csproj": {}
+    "/home/ubuntu/projects/PlaywrightDemo/PlaywrightDemo.csproj": {}
   },
   "projects": {
-    "/home/jaykchen/projects/PlaywrightDemo/PlaywrightDemo.csproj": {
+    "/home/ubuntu/projects/PlaywrightDemo/PlaywrightDemo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/jaykchen/projects/PlaywrightDemo/PlaywrightDemo.csproj",
+        "projectUniqueName": "/home/ubuntu/projects/PlaywrightDemo/PlaywrightDemo.csproj",
         "projectName": "PlaywrightDemo",
-        "projectPath": "/home/jaykchen/projects/PlaywrightDemo/PlaywrightDemo.csproj",
-        "packagesPath": "/home/jaykchen/.nuget/packages/",
-        "outputPath": "/home/jaykchen/projects/PlaywrightDemo/obj/",
+        "projectPath": "/home/ubuntu/projects/PlaywrightDemo/PlaywrightDemo.csproj",
+        "packagesPath": "/home/ubuntu/.nuget/packages/",
+        "outputPath": "/home/ubuntu/projects/PlaywrightDemo/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/jaykchen/.nuget/NuGet/NuGet.Config"
+          "/home/ubuntu/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -38,6 +38,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "DotNetEnv": {
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
             "Microsoft.Playwright": {
               "target": "Package",
               "version": "[1.44.0, )"
