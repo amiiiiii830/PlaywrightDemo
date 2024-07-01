@@ -2,8 +2,8 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Playwright;
 using DotNetEnv;
+using Microsoft.Playwright;
 
 namespace PlaywrightDemo
 {
@@ -11,15 +11,14 @@ namespace PlaywrightDemo
     {
         static async Task Main(string[] args)
         {
-
             Env.Load();
 
             // Retrieve proxy settings from environment variables.
             string proxyServer = Env.GetString("PROXY_SERVER");
             string proxyUsername = Env.GetString("PROXY_USERNAME");
             string proxyPassword = Env.GetString("PROXY_PASSWORD");
-            string siteUsername = Env.GetString("BESTBUY_USERNAME");
-            string sitePassword = Env.GetString("BESTBUY_PASSWORD");
+            string siteUsername = Env.GetString("LINKED_USERNAME");
+            string sitePassword = Env.GetString("LINKED_PASSWORD");
 
             try
             {
@@ -32,26 +31,26 @@ namespace PlaywrightDemo
                 {
                     Proxy = new Proxy()
                     {
-               Server = proxyServer,
+                        Server = proxyServer,
                         Username = proxyUsername,
-                        Password = proxyPassword,                    }
+                        Password = proxyPassword,
+                    }
                 };
 
                 var context = await browser.NewContextAsync(contextOptions);
                 var page = await context.NewPageAsync();
 
-                // Navigate to BestBuy website.
-                await page.GotoAsync("https://bestbuy.ca/");
+                await page.GotoAsync("https://www.linkedin.com/home");
+                // await page.GotoAsync("https://bestbuy.ca/");
 
-                // Click on Account link.
-                var signInButton = page.GetByRole(
-                    AriaRole.Link,
-                    new() { Name = "Account", Exact = true }
-                );
-                if (signInButton == null)
-                    throw new NullReferenceException("Sign-in button not found.");
+                // var signInButton = page.GetByRole(
+                //     AriaRole.Link,
+                //     new() { Name = "Account", Exact = true }
+                // );
+                // if (signInButton == null)
+                //     throw new NullReferenceException("Sign-in button not found.");
 
-                await signInButton.ClickAsync();
+                // await signInButton.ClickAsync();
 
                 // Wait for load state.
                 await page.WaitForLoadStateAsync(LoadState.Load);
@@ -69,8 +68,22 @@ namespace PlaywrightDemo
 
                 await passwordField.FillAsync(sitePassword);
 
-                try
+                var signInButton = page.GetByRole(AriaRole.Button, new() { Name = "Sign in" });
+                if (await signInButton.CountAsync() == 0)
+                    throw new NullReferenceException("Sign-in button not found.");
+
+                await signInButton.ClickAsync();
+
+                await page.WaitForURLAsync("https://www.linkedin.com/in/jaykchen/");
+
+                var pageText = await page.TextContentAsync("body");
+
+                Console.WriteLine(pageText);
+
+/*                 try
                 {
+                    await page.GotoAsync("https://www.linkedin.com/in/jaykchen/");
+
                     // Locate sign-in button and error message locator.
                     var signInBut2 = page.Locator(
                         "[data-automation='registered-sign-in'] .signin-form-button"
@@ -115,7 +128,7 @@ namespace PlaywrightDemo
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Inner exception occurred :{ex.Message}");
-                }
+                } */
             }
             catch (Exception ex)
             {
