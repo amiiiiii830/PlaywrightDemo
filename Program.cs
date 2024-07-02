@@ -28,7 +28,7 @@ namespace PlaywrightDemo
             {
                 using var playwright = await Playwright.CreateAsync();
                 await using var browser = await playwright.Chromium.LaunchAsync(
-                    new BrowserTypeLaunchOptions { Headless = true }
+                    new BrowserTypeLaunchOptions { Headless = false }
                 );
 
                 var contextOptions = new BrowserNewContextOptions()
@@ -39,20 +39,45 @@ namespace PlaywrightDemo
                         Username = login,
                         Password = proxyPassword,
                     },
-                        UserAgent= "Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0",
-                        IgnoreHTTPSErrors= true
+                    UserAgent = "Mozilla/5.0 (Windows NT 5.1; rv:31.0) Gecko/20100101 Firefox/31.0",
+                    IgnoreHTTPSErrors = true
                 };
 
                 var context = await browser.NewContextAsync(contextOptions);
                 var page = await context.NewPageAsync();
 
-                // await page.GotoAsync("https://www.linkedin.com/home");
+                // await page.GotoAsync("https://www.linkedin.com/");
                 await page.GotoAsync(
-					"https://www.linkedin.com/",
-					new PageGotoOptions { Timeout=(int)TimeSpan.FromMinutes(2).TotalMilliseconds }
-				);
+                    "https://www.linkedin.com/home"
+                // ,
+                // new PageGotoOptions { Timeout = (int)TimeSpan.FromMinutes(2).TotalMilliseconds }
+                );
 
-                await page.WaitForLoadStateAsync(LoadState.Load, new PageWaitForLoadStateOptions { Timeout=(int)TimeSpan.FromMinutes(2).TotalMilliseconds });
+                await page.WaitForLoadStateAsync(
+                    LoadState.Load
+                // ,
+                // new PageWaitForLoadStateOptions
+                // {
+                //     Timeout = (int)TimeSpan.FromMinutes(2).TotalMilliseconds
+                // }
+                );
+                while (true)
+                {
+                    if (
+                        (
+                            Console.KeyAvailable
+                            && Console.ReadKey(true).Key == ConsoleKey.Q
+                            && ConsoleModifiers.Control != 0
+                        )
+                    )
+                    {
+                        break;
+                    }
+
+                    await Task.Delay(100);
+                } 
+                
+                //  await page.ClickAsync("[data-test-id='home-hero-sign-in-cta']");
 
                 // await page.GotoAsync("https://bestbuy.ca/");
 
@@ -67,7 +92,7 @@ namespace PlaywrightDemo
 
                 // Wait for load state.
                 // await page.WaitForLoadStateAsync(LoadState.Load);
-                Console.WriteLine("loading home");
+                Console.WriteLine("passed home");
 
                 // Fill email and password fields.
                 var emailField = page.GetByLabel("Email Address");
@@ -81,6 +106,7 @@ namespace PlaywrightDemo
                     throw new NullReferenceException("Password field not found.");
 
                 await passwordField.FillAsync(sitePassword);
+                Console.WriteLine("doing userid, pass");
 
                 var signInButton = page.GetByRole(AriaRole.Button, new() { Name = "Sign in" });
                 if (await signInButton.CountAsync() == 0)
