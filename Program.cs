@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Text.Json;
 using System.Threading.Tasks;
 using DotNetEnv;
 using Microsoft.Playwright;
@@ -18,7 +20,7 @@ namespace PlaywrightDemo
             {
                 using var playwright = await Playwright.CreateAsync();
                 await using var browser = await playwright.Firefox.LaunchAsync(
-                    new BrowserTypeLaunchOptions { Headless = false }
+                    new BrowserTypeLaunchOptions { Headless = true }
                 );
 
                 var contextOptions = new BrowserNewContextOptions()
@@ -30,6 +32,33 @@ namespace PlaywrightDemo
                 var context = await browser.NewContextAsync(contextOptions);
                 var page = await context.NewPageAsync();
 
+                // Load cookies from file and set them in the context.
+                if (File.Exists("cookies.json"))
+                {
+                    var cookieJson = await File.ReadAllTextAsync("cookies.json");
+                    var cookiesArray = JsonSerializer.Deserialize<Cookie[]>(cookieJson);
+
+                    if (cookiesArray != null)
+                    {
+                        // foreach (var cookie in cookiesArray)
+                        // {
+                        //     // Adjust domain if necessary.
+                        //     cookie.Domain ??= ".linkedin.com";
+                        // }
+
+                        await context.AddCookiesAsync(cookiesArray);
+                        Console.WriteLine("Cookies loaded successfully.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("No valid cookies found.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No cookie file found.");
+                }
+
                 await page.GotoAsync(
                     "https://www.linkedin.com/home",
                     new PageGotoOptions { Timeout = (int)TimeSpan.FromMinutes(2).TotalMilliseconds }
@@ -37,13 +66,7 @@ namespace PlaywrightDemo
 
                 await page.WaitForLoadStateAsync(LoadState.Load);
 
-                // Console.WriteLine("passed home");
-
-                // Console.WriteLine("Please login manually and then press Enter to continue...");
-                Console.ReadLine();
-                // await page.WaitForTimeoutAsync(30000);
-                // Console.WriteLine("Reached after login prompt");
-                await page.PauseAsync();
+                Console.WriteLine("Reached after login prompt");
 
                 // if (page.Url.Contains("feed"))
                 // {
@@ -54,28 +77,14 @@ namespace PlaywrightDemo
                 //     Console.WriteLine("URL does not contain 'feed'");
                 // }
 
-                // try
-                // {
-                //     await page.GotoAsync(
-                //         "https://www.linkedin.com/in/jaykchen/",
-                //         new PageGotoOptions { Timeout = 60000 }
-                //     );
-                //     await page.WaitForLoadStateAsync(LoadState.Load);
-                //     Console.WriteLine("Navigated to profile page");
-                // }
-                // catch (Exception ex)
-                // {
-                //     Console.WriteLine($"Navigation to profile page failed: {ex.Message}");
-                // }
-
                 await page.ScreenshotAsync(new() { Path = "profile_screenshot.png" });
 
-                var cookies = await context.CookiesAsync();
-                await System.IO.File.WriteAllTextAsync(
-                    "cookies.json",
-                    System.Text.Json.JsonSerializer.Serialize(cookies)
-                );
-                Console.WriteLine(cookies);
+                // var cookies = await context.CookiesAsync();
+                // await System.IO.File.WriteAllTextAsync(
+                //     "cookies.json",
+                //     System.Text.Json.JsonSerializer.Serialize(cookies)
+                // );
+                // Console.WriteLine(cookies);
             }
             catch (Exception ex)
             {

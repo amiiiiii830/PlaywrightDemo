@@ -5359,19 +5359,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/jichen/.nuget/packages/": {}
+    "/home/ubuntu/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/jichen/Projects/PlaywrightDemo/PlaywrightDemo.csproj",
+      "projectUniqueName": "/home/ubuntu/projects/PlaywrightDemo/PlaywrightDemo.csproj",
       "projectName": "PlaywrightDemo",
-      "projectPath": "/Users/jichen/Projects/PlaywrightDemo/PlaywrightDemo.csproj",
-      "packagesPath": "/Users/jichen/.nuget/packages/",
-      "outputPath": "/Users/jichen/Projects/PlaywrightDemo/obj/",
+      "projectPath": "/home/ubuntu/projects/PlaywrightDemo/PlaywrightDemo.csproj",
+      "packagesPath": "/home/ubuntu/.nuget/packages/",
+      "outputPath": "/home/ubuntu/projects/PlaywrightDemo/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/jichen/.nuget/NuGet/NuGet.Config"
+        "/home/ubuntu/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -5389,11 +5389,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -5425,7 +5420,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.105/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

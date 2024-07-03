@@ -13,3 +13,4 @@ obj/Debug/net8.0/PlaywrightDemo.AssemblyInfoInputs.cache
 obj/Debug/net8.0/PlaywrightDemo.assets.cache
 obj/Debug/net8.0/PlaywrightDemo.csproj.AssemblyReference.cache
 login_screenshot.png
+cookies.json
